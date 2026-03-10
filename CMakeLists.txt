@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.0)
-project(MyProject LANGUAGES C CXX)
+project(QuestsServer LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 26)
 
