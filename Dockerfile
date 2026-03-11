@@ -4,6 +4,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 #https://askubuntu.com/questions/355565/how-do-i-install-the-latest-version-of-cmake-from-the-command-line
 RUN apt update
+RUN apt install -y curl
+RUN apt install -y libssl-dev
 RUN apt install -y build-essential
 RUN apt install -y libtool
 RUN apt install -y autoconf
@@ -19,13 +21,20 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v4.0.1/cmake-4.0.1-l
     rm /tmp/cmake-install.sh
 
 RUN echo "cmake installed version: $(cmake --version)"
-
+RUN echo "installing Quests ..."
 WORKDIR /usr/local
 RUN git clone https://github.com/Dandjix/SpaceshipQuests SpaceshipQuests
 WORKDIR /usr/local/SpaceshipQuests
 RUN chmod u+x ./install.sh
 RUN ./install.sh
 
+RUN echo "installing MongoDB Client ..."
+WORKDIR /usr/local/MongoDB
+COPY install_mongo_db.sh ./install.sh
+RUN chmod u+x ./install.sh
+RUN ./install.sh
+
+RUN echo "installing Server ..."
 WORKDIR /usr/local/QuestsServer
 COPY imported ./imported
 COPY src ./src
